@@ -2,10 +2,6 @@
 
 Vibecheck is a production Assembly Line running on agentics.dk. It is a fully automated AI code review pipeline — submit any GitHub repository and receive a comprehensive quality report covering architecture, code quality, security, testing, and documentation. This example demonstrates every ALP concept in a real-world context.
 
-Source: [github.com/pksorensen/pks-vibecheck](https://github.com/pksorensen/pks-vibecheck)
-
----
-
 ## What It Does
 
 A user submits a GitHub repository URL (the Task Card). Eight specialised Claude Code Agents work in sequence, each writing a structured report to a shared stage git repository. The SYNTHESIS Agent aggregates all reports into a scored Vibecheck Report, which is reviewed by a human before the DELIVER Agent publishes it to the Agentics artifact store.
