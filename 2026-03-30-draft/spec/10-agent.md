@@ -1,6 +1,6 @@
 # 10 — Agent
 
-The **Agent** is the AI that executes the work at a Station. It is the intelligence in the Assembly Line — everything else (Server, Client, Operator) is plumbing to get the right context to the Agent and collect its output.
+The **Agent** is the AI that executes the work at a Station. It is the intelligence in the Assembly Line — everything else (Server, Runner, Operator) is plumbing to get the right context to the Agent and collect its output.
 
 ---
 
@@ -10,7 +10,7 @@ The Agent has no direct knowledge of:
 - The ALP Server
 - The Assembly Line or which Station it is at
 - Other Stations' outputs (except what it finds in the Assembly Line Repository)
-- The Client that dispatched the Job
+- The Runner that dispatched the Job
 
 From the Agent's perspective, it is given a task to complete and an environment to work in. The Agent simply executes the task described in its prompt.
 

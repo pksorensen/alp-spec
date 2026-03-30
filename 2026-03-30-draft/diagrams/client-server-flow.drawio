@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mxfile host="app.diagrams.net" modified="2026-03-30" version="21.0.0">
-  <diagram name="Client-Server Flow" id="client-server-flow">
+  <diagram name="Runner-Server Flow" id="client-server-flow">
     <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="920" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -17,7 +17,7 @@
 
         <!-- ══════════════════════════════════════════════════
              PARTICIPANT HEADER BOXES
-             Server=130cx  Client=380cx  Operator=650cx  Agent=920cx
+             Server=130cx  Runner=380cx  Operator=650cx  Agent=920cx
         ══════════════════════════════════════════════════ -->
         <mxCell id="h-server" value="&lt;b&gt;SERVER&lt;/b&gt;"
           style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;"
@@ -54,7 +54,7 @@
             <mxPoint x="130" y="870" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <!-- Client lifeline cx=380 -->
+        <!-- Runner lifeline cx=380 -->
         <mxCell id="ll-c" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1;"
           edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
@@ -96,14 +96,14 @@
         </mxCell>
 
         <!-- ══════════════════════════════════════════════════
-             STEP 1 — Client polls, server has no job (204)
+             STEP 1 — Runner polls, server has no job (204)
              y = 130
         ══════════════════════════════════════════════════ -->
         <mxCell id="s1-label" value="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
           vertex="1" parent="1">
           <mxGeometry x="18" y="122" width="22" height="22" as="geometry" />
         </mxCell>
-        <!-- request arrow: Client → Server -->
+        <!-- request arrow: Runner → Server -->
         <mxCell id="s1-req" value="POST /runners/jobs"
           style="endArrow=open;endFill=0;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;align=center;exitX=0;exitY=0.5;exitDx=0;exitDy=0;"
           edge="1" parent="1">
@@ -112,7 +112,7 @@
             <mxPoint x="130" y="133" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <!-- response arrow: Server → Client -->
+        <!-- response arrow: Server → Runner -->
         <mxCell id="s1-res" value="HTTP 204 — no jobs available"
           style="endArrow=open;endFill=0;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;fontSize=10;align=center;"
           edge="1" parent="1">
@@ -130,7 +130,7 @@
         </mxCell>
 
         <!-- ══════════════════════════════════════════════════
-             STEP 2 — Client polls, server returns a job (200)
+             STEP 2 — Runner polls, server returns a job (200)
              y = 200
         ══════════════════════════════════════════════════ -->
         <mxCell id="s2-label" value="2" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
@@ -164,7 +164,7 @@
         </mxCell>
 
         <!-- ══════════════════════════════════════════════════
-             STEP 3 — Client spawns Operator
+             STEP 3 — Runner spawns Operator
              y = 270
         ══════════════════════════════════════════════════ -->
         <mxCell id="s3-label" value="3" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d6b656;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
@@ -310,7 +310,7 @@
         </mxCell>
 
         <!-- ══════════════════════════════════════════════════
-             STEP 8 — Client reports result to Server
+             STEP 8 — Runner reports result to Server
              y = 670
         ══════════════════════════════════════════════════ -->
         <mxCell id="s8-label" value="8" style="ellipse;whiteSpace=wrap;html=1;fillColor=#82b366;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
@@ -369,7 +369,7 @@
         <mxCell id="fallback-title" value="⚡ Crash / Timeout Path" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontStyle=1;fontColor=#b85450;" vertex="1" parent="1">
           <mxGeometry x="50" y="816" width="200" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="fallback-desc" value="If Agent exits without calling complete_station → Claude Code stop hook fires → hook calls complete_station(conclusion: &quot;failure&quot;) → Operator exits non-zero → Client reports { jobResult: &quot;failed&quot; }" style="text;html=1;strokeColor=#f8cecc;fillColor=#fff0f0;align=left;verticalAlign=middle;fontSize=10;fontColor=#b85450;rounded=1;" vertex="1" parent="1">
+        <mxCell id="fallback-desc" value="If Agent exits without calling complete_station → Claude Code stop hook fires → hook calls complete_station(conclusion: &quot;failure&quot;) → Operator exits non-zero → Runner reports { jobResult: &quot;failed&quot; }" style="text;html=1;strokeColor=#f8cecc;fillColor=#fff0f0;align=left;verticalAlign=middle;fontSize=10;fontColor=#b85450;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="50" y="836" width="1000" height="30" as="geometry" />
         </mxCell>
 

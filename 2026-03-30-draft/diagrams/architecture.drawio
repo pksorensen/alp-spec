@@ -15,7 +15,7 @@
         <mxCell id="server" value="&lt;b&gt;SERVER&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:11px&apos;&gt;agentics.dk (reference implementation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=0;arcSize=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
           <mxGeometry x="260" y="50" width="560" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="server-items" value="Assembly Lines  ·  Task Queue  ·  Client Registry  ·  Transition Rules  ·  Gates" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+        <mxCell id="server-items" value="Assembly Lines  ·  Task Queue  ·  Runner Registry  ·  Transition Rules  ·  Gates" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
           <mxGeometry x="260" y="100" width="560" height="25" as="geometry" />
         </mxCell>
         <mxCell id="server-outline" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#6c8ebf;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
@@ -23,7 +23,7 @@
         </mxCell>
 
         <!-- ═══ CLIENT ═══ -->
-        <mxCell id="client" value="&lt;b&gt;CLIENT / RUNNER&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:11px&apos;&gt;pks-cli (reference implementation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=0;arcSize=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+        <mxCell id="client" value="&lt;b&gt;RUNNER&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:11px&apos;&gt;pks-cli (reference implementation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=0;arcSize=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
           <mxGeometry x="260" y="210" width="560" height="50" as="geometry" />
         </mxCell>
         <mxCell id="client-items" value="Polls for Jobs  ·  Claims Tasks  ·  Spawns Operators  ·  Reports Outcomes" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">

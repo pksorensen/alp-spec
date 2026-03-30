@@ -56,7 +56,7 @@
 | Q7 | Auth standard? | Bearer token required; token issuance is server's business. Flagged as WIP in spec. | 2026-03-30 |
 | Q8 | Polling latency? | Short-poll as required baseline; SSE as optional extension | 2026-03-30 |
 | Q9 | Completion signal? | Process exit code + defined outcome schema. Operator elicitation method is implementation detail. | 2026-03-30 |
-| Q10 | Label matching semantics? | Client's labels must be a superset of Station's required labels | 2026-03-30 |
+| Q10 | Label matching semantics? | Runner's labels must be a superset of Station's required labels | 2026-03-30 |
 | Q11 | Multiple Agent Definitions per Station? | No — one Agent Definition per Station in v1 | 2026-03-30 |
 | Q12 | Station output passing? | Assembly Line Repository only | 2026-03-30 |
 
@@ -68,7 +68,7 @@
 |---|---|---|
 | 2026-03-30 | Steps inside an Assembly Line → **Stations** | Fits factory metaphor; already used in vibecheck |
 | 2026-03-30 | Flow control rules → **Transition Rules** | Clean, precise; maps to manufacturing concept |
-| 2026-03-30 | Generic client role → **Client** (alias: Runner) | Distinguishes client (infra) from agent (AI); 1:N possible |
+| 2026-03-30 | Generic client role → **Runner** | Distinguishes client (infra) from agent (AI); 1:N possible |
 | 2026-03-30 | Folder location → `assembly-line/` at repo root | Mirrors tools-registry/ precedent |
 | 2026-03-30 | Wire protocol → HTTP short-poll + Bearer token | Confirmed from pks-cli C# source |
 | 2026-03-30 | Current scope → Linear assembly lines only | Will revisit branching in a future version |

@@ -143,7 +143,7 @@ An LLM evaluates a yes/no question against the Station's output. The answer dete
 }
 ```
 
-The evaluator is run by a designated evaluator Client (or the Server itself). It reads the Assembly Line Repository and answers the question based on the Agent's outputs.
+The evaluator is run by a designated evaluator Runner (or the Server itself). It reads the Assembly Line Repository and answers the question based on the Agent's outputs.
 
 ### Hook Condition
 

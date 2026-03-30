@@ -42,10 +42,10 @@
         </mxCell>
 
         <!-- ═══ STATE DESCRIPTIONS ═══ -->
-        <mxCell id="desc-queued" value="Waiting for a Client to claim the Job" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+        <mxCell id="desc-queued" value="Waiting for a Runner to claim the Job" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
           <mxGeometry x="265" y="193" width="170" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="desc-claimed" value="Client is starting the Operator" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+        <mxCell id="desc-claimed" value="Runner is starting the Operator" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
           <mxGeometry x="485" y="193" width="170" height="20" as="geometry" />
         </mxCell>
         <mxCell id="desc-progress" value="Agent is executing the Station task" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
@@ -69,7 +69,7 @@
         </mxCell>
 
         <!-- queued → claimed -->
-        <mxCell id="e2" value="Client polls → job available" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=10;" edge="1" source="queued" target="claimed" parent="1">
+        <mxCell id="e2" value="Runner polls → job available" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=10;" edge="1" source="queued" target="claimed" parent="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 

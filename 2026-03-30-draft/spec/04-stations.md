@@ -1,6 +1,6 @@
 # 04 — Stations
 
-A **Station** is one discrete unit of work in an Assembly Line. When a Task reaches a Station, the Server dispatches a Job to a matching Client. The Client spawns a Station Operator, which runs an Agent using the Station's configuration.
+A **Station** is one discrete unit of work in an Assembly Line. When a Task reaches a Station, the Server dispatches a Job to a matching Runner. The Runner spawns a Station Operator, which runs an Agent using the Station's configuration.
 
 ---
 
@@ -22,13 +22,13 @@ The trigger defines whether and how a Job is dispatched when a Task arrives at t
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `type` | `"dispatch_worker"` \| `"none"` | `"none"` | `dispatch_worker` creates a Job and sends it to a Client; `none` is a manual or non-automated station |
-| `labels` | string[] | `[]` | Required Client labels for this Station (see Label Matching below) |
+| `type` | `"dispatch_worker"` \| `"none"` | `"none"` | `dispatch_worker` creates a Job and sends it to a Runner; `none` is a manual or non-automated station |
+| `labels` | string[] | `[]` | Required Runner labels for this Station (see Label Matching below) |
 | `promptTemplate` | string | `""` | The Agent's instruction. Supports `{{task.title}}` and `{{task.description}}` interpolation |
 | `appendSystemPrompt` | string | `""` | Additional text appended to the Agent's system prompt |
 | `idleTimeoutMinutes` | number | `2` | Cancel the Job if the Agent is idle for this many minutes |
 | `maxTimeoutMinutes` | number | `60` | Hard wall-clock limit for the entire Station execution |
-| `initBranch` | boolean | `false` | If true, the Client creates a git branch named `task-{taskId}` in the repository before starting the Agent |
+| `initBranch` | boolean | `false` | If true, the Runner creates a git branch named `task-{taskId}` in the repository before starting the Agent |
 | `autoGit` | boolean | `false` | If true, the Agent's session is blocked from ending if there are uncommitted changes |
 | `commitMessageTemplate` | string | `""` | Hint injected into the Agent's context when `autoGit` blocks |
 | `createAssemblyLineRepo` | boolean | `false` | Provision an Assembly Line Repository for this Task when it arrives here. Enable on the first Station that needs it. |
@@ -57,7 +57,7 @@ The trigger defines whether and how a Job is dispatched when a Task arrives at t
 
 ## Agent Definition (the Job payload)
 
-When the Server dispatches a Job for a Station, it builds an **Agent Definition** and sends it to the Client. The Agent Definition is derived from the Station trigger plus Task-specific data.
+When the Server dispatches a Job for a Station, it builds an **Agent Definition** and sends it to the Runner. The Agent Definition is derived from the Station trigger plus Task-specific data.
 
 ```typescript
 interface AgentDefinition {
@@ -96,18 +96,18 @@ interface AgentDefinition {
 
 Labels are how the Server routes Jobs to capable Clients. The rule is:
 
-> **A Client's registered labels must be a superset of the Station's required labels.**
+> **A Runner's registered labels must be a superset of the Station's required labels.**
 
 ```
 Station requires:  ["linux", "claude-code"]
 
-Client A labels:   ["linux", "claude-code"]            ✓ matches
-Client B labels:   ["linux", "claude-code", "x86_64"]  ✓ matches (superset)
-Client C labels:   ["linux"]                           ✗ no match
-Client D labels:   ["macos", "claude-code"]            ✗ no match (linux required)
+Runner A labels:   ["linux", "claude-code"]            ✓ matches
+Runner B labels:   ["linux", "claude-code", "x86_64"]  ✓ matches (superset)
+Runner C labels:   ["linux"]                           ✗ no match
+Runner D labels:   ["macos", "claude-code"]            ✗ no match (linux required)
 ```
 
-When multiple Clients match, the Server dispatches to the first available idle Client.
+When multiple Runners match, the Server dispatches to the first available idle Runner.
 
 ---
 

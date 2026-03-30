@@ -1,20 +1,20 @@
 # 09 — Operator (Station Operator)
 
-A **Station Operator** (Operator) is spawned by the Client for each Job. It manages the entire execution lifecycle at one Station: setting up the workspace, starting the Agent, streaming output to viewers, detecting completion, and exiting with an outcome code.
+A **Station Operator** (Operator) is spawned by the Runner for each Job. It manages the entire execution lifecycle at one Station: setting up the workspace, starting the Agent, streaming output to viewers, detecting completion, and exiting with an outcome code.
 
-The Operator is the translation layer between the infrastructure world (Client, ALP Server) and the AI world (Agent). It knows how to work with a specific type of Agent.
+The Operator is the translation layer between the infrastructure world (Runner, ALP Server) and the AI world (Agent). It knows how to work with a specific type of Agent.
 
 ---
 
 ## Responsibilities
 
-1. **Receive** the Agent Definition from the Client (prompt, timeouts, repository config, Assembly Line Repository credentials)
+1. **Receive** the Agent Definition from the Runner (prompt, timeouts, repository config, Assembly Line Repository credentials)
 2. **Set up** the execution environment (workspace directory, git clone, git credentials, devcontainer files)
 3. **Configure** the Agent's environment (inject `ASSEMBLY_LINE_REPO_URL`, `ASSEMBLY_LINE_REPO_TOKEN`, and other standard env vars)
 4. **Start** the Agent with the rendered prompt
 5. **Stream** the Agent's terminal output to registered viewers in real time
 6. **Detect** when the Agent has finished (exit code, or explicit completion signal)
-7. **Exit** with code 0 (success) or non-zero (failure) so the Client can report the outcome
+7. **Exit** with code 0 (success) or non-zero (failure) so the Runner can report the outcome
 
 ---
 
@@ -59,7 +59,7 @@ When the Agent calls `complete_station`, the Operator:
 1. Records the conclusion and summary
 2. Prepares to exit with the appropriate exit code
 3. Streams a final status to any connected viewers
-4. Exits — the Client reads the exit code and reports the Job outcome to the Server
+4. Exits — the Runner reads the exit code and reports the Job outcome to the Server
 
 ### Additional Tools (Optional)
 
@@ -84,7 +84,7 @@ Agent ──(calls MCP tool)──► complete_station(conclusion: "success", su
                                       │
                               Operator exits with code 0
                                       │
-                Client ──(reads exit code)──► reports { jobResult: "success" } to Server
+                Runner ──(reads exit code)──► reports { jobResult: "success" } to Server
 ```
 
 For the crash/timeout path:
@@ -95,7 +95,7 @@ Stop hook fires ──► complete_station(conclusion: "failure", summary: "sess
         │
 Operator exits with non-zero code
         │
-Client ──► reports { jobResult: "failed" } to Server
+Runner ──► reports { jobResult: "failed" } to Server
 ```
 
 ---

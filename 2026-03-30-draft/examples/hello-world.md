@@ -1,6 +1,6 @@
 # Example: Hello World Assembly Line
 
-The simplest possible ALP Assembly Line — two Stations, no Assembly Line Repository, no Transition Rules, no gates. Use this as your first implementation test when building an ALP Server or Client.
+The simplest possible ALP Assembly Line — two Stations, no Assembly Line Repository, no Transition Rules, no gates. Use this as your first implementation test when building an ALP Server or Runner.
 
 ---
 
@@ -67,7 +67,7 @@ Description: Write something creative and slightly melancholy about robots
 ## Submit via API
 
 ```bash
-# 1. Register your Client (one time)
+# 1. Register your Runner (one time)
 curl -X POST https://your-server/api/owners/your-username/projects/your-project/runners/register \
   -H "Authorization: Bearer {userToken}" \
   -H "Content-Type: application/json" \
@@ -85,9 +85,9 @@ curl -X POST https://your-server/api/owners/your-username/projects/your-project/
     "columnId": "write"
   }'
 
-# → Task is created. If your Client is polling, it picks up the first Job automatically.
+# → Task is created. If your Runner is polling, it picks up the first Job automatically.
 
-# 3. Start your Client (poll for jobs)
+# 3. Start your Runner (poll for jobs)
 pks agentics runner start \
   --server https://your-server \
   --owner your-username \
@@ -103,12 +103,12 @@ pks agentics runner start \
 |---|---|---|
 | 1 | User | Submits Task Card via API |
 | 2 | Server | Creates Task, queues Job at WRITE Station |
-| 3 | Client | Polls → receives Job |
-| 4 | Client | Spawns Operator with WRITE Agent Definition |
+| 3 | Runner | Polls → receives Job |
+| 4 | Runner | Spawns Operator with WRITE Agent Definition |
 | 5 | Operator | Starts Claude Code with the WRITE prompt |
 | 6 | Agent | Writes the poem, exits 0 |
 | 7 | Operator | Exits 0 |
-| 8 | Client | Reports `{ jobResult: "success", exitCode: 0 }` |
+| 8 | Runner | Reports `{ jobResult: "success", exitCode: 0 }` |
 | 9 | Server | Applies default Transition Rule → advances Task to REVIEW |
 | 10–15 | (repeat 3–8 for REVIEW) | |
 | 16 | Server | Last Station succeeded → Task → `completed` |

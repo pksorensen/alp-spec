@@ -34,10 +34,10 @@ A Task moves through the following states as it flows through an Assembly Line:
 [Submit Task Card]
         │
         ▼
-     queued          ← waiting for a Client to claim the Job at the current Station
+     queued          ← waiting for a Runner to claim the Job at the current Station
         │
         ▼
-     claimed         ← a Client has taken the Job and is starting the Operator
+     claimed         ← a Runner has taken the Job and is starting the Operator
         │
         ▼
     in_progress      ← the Operator has started the Agent, work is underway
@@ -68,8 +68,8 @@ success    failure
 
 | State | Description |
 |---|---|
-| `queued` | Waiting for a matching Client to poll and claim the Job |
-| `claimed` | A Client has claimed the Job; Operator is starting |
+| `queued` | Waiting for a matching Runner to poll and claim the Job |
+| `claimed` | A Runner has claimed the Job; Operator is starting |
 | `in_progress` | Operator has started the Agent; work is underway |
 | `awaiting_review` | Task has reached a Human Review Gate and is paused pending approval |
 | `completed` | All Stations finished successfully |
