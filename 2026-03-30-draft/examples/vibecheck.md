@@ -2,11 +2,13 @@
 
 Vibecheck is a production Assembly Line running on agentics.dk. It is a fully automated AI code review pipeline — submit any GitHub repository and receive a comprehensive quality report covering architecture, code quality, security, testing, and documentation. This example demonstrates every ALP concept in a real-world context.
 
+Source: [github.com/pksorensen/pks-vibecheck](https://github.com/pksorensen/pks-vibecheck)
+
 ---
 
 ## What It Does
 
-A user submits a GitHub repository URL (the Task Card). Eight specialised Claude Code Agents work in sequence, each writing a structured report to the Assembly Line Repository. The final Agent synthesises all reports into a scored Vibecheck Report and delivers it as a GitHub comment.
+A user submits a GitHub repository URL (the Task Card). Eight specialised Claude Code Agents work in sequence, each writing a structured report to a shared stage git repository. The SYNTHESIS Agent aggregates all reports into a scored Vibecheck Report, which is reviewed by a human before the DELIVER Agent publishes it to the Agentics artifact store.
 
 ```
 INTAKE → ARCHITECTURE → CODE QUALITY → SECURITY → TESTING → DOCUMENTATION
@@ -29,145 +31,237 @@ Description:
   Concerns:    Auth implementation, SQL injection risks
 ```
 
-The Agent at each Station reads `{{task.description}}` via its prompt template and knows exactly what to review.
+Each Agent's `prompt.md` receives `{{task.title}}` and `{{task.description}}` at dispatch time.
 
 ---
 
 ## Assembly Line Definition
 
+The `.agentics/` folder is split across several files — there is no single monolithic config.
+
+### `.agentics/assembly-line.json`
+
+Top-level metadata only:
+
 ```json
 {
   "id": "vibecheck",
   "name": "Vibecheck",
-  "description": "Comprehensive AI-powered code review pipeline",
-  "version": "1.0.0",
-  "stations": [
-    {
-      "id": "intake",
-      "name": "INTAKE",
-      "trigger": {
-        "type": "dispatch_worker",
-        "labels": ["vibecheck", "claude-code"],
-        "createAssemblyLineRepo": true,
-        "promptTemplate": "You are the INTAKE agent for the Vibecheck pipeline.\n\nTask: {{task.title}}\n\n{{task.description}}\n\nSetup the workspace:\n1. Clone the Assembly Line Repository: git clone $ASSEMBLY_LINE_REPO_URL workspace && cd workspace\n2. Create the target/ directory and clone the submitted repository into it\n3. Write workspace/reports/intake.md with: repository URL, detected stack, directory structure summary\n4. Commit and push\n\nExit when done."
-      }
-    },
-    {
-      "id": "architecture",
-      "name": "ARCHITECTURE",
-      "trigger": {
-        "type": "dispatch_worker",
-        "labels": ["vibecheck", "claude-code"],
-        "promptTemplate": "You are the ARCHITECTURE agent for the Vibecheck pipeline.\n\nTask: {{task.title}}\n\n{{task.description}}\n\n1. Clone the Assembly Line Repository: git clone $ASSEMBLY_LINE_REPO_URL workspace && cd workspace\n2. Read workspace/reports/intake.md\n3. Analyse the architecture of the codebase in workspace/target/\n4. Write workspace/reports/architecture.md with: system design analysis, component relationships, architectural concerns\n5. Commit and push\n\nExit when done."
-      }
-    },
-    {
-      "id": "code-quality",
-      "name": "CODE QUALITY",
-      "trigger": {
-        "type": "dispatch_worker",
-        "labels": ["vibecheck", "claude-code"],
-        "promptTemplate": "You are the CODE QUALITY agent for the Vibecheck pipeline.\n\nTask: {{task.title}}\n\n{{task.description}}\n\n1. Clone the Assembly Line Repository\n2. Analyse code quality: patterns, complexity, naming, dead code\n3. Write reports/code-quality.md\n4. Commit and push"
-      }
-    },
-    {
-      "id": "security",
-      "name": "SECURITY",
-      "trigger": {
-        "type": "dispatch_worker",
-        "labels": ["vibecheck", "claude-code"],
-        "promptTemplate": "You are the SECURITY agent for the Vibecheck pipeline.\n\nTask: {{task.title}}\n\n{{task.description}}\n\n1. Clone the Assembly Line Repository\n2. Audit for: auth vulnerabilities, injection risks, secrets in code, dependency CVEs\n3. Write reports/security.md with severity ratings (CRITICAL/HIGH/MEDIUM/LOW)\n4. Commit and push"
-      }
-    },
-    {
-      "id": "testing",
-      "name": "TESTING",
-      "trigger": {
-        "type": "dispatch_worker",
-        "labels": ["vibecheck", "claude-code"],
-        "promptTemplate": "You are the TESTING agent for the Vibecheck pipeline.\n\nTask: {{task.title}}\n\n{{task.description}}\n\n1. Clone the Assembly Line Repository: git clone $ASSEMBLY_LINE_REPO_URL workspace && cd workspace\n2. Analyse the test suite in workspace/target/: coverage, test quality, missing tests, flaky tests\n3. Write reports/testing.md with: test framework(s) found, estimated coverage, critical untested paths, recommendations\n4. Commit and push\n\nExit when done."
-      }
-    },
-    {
-      "id": "documentation",
-      "name": "DOCUMENTATION",
-      "trigger": {
-        "type": "dispatch_worker",
-        "labels": ["vibecheck", "claude-code"],
-        "promptTemplate": "You are the DOCUMENTATION agent for the Vibecheck pipeline.\n\nTask: {{task.title}}\n\n{{task.description}}\n\n1. Clone the Assembly Line Repository: git clone $ASSEMBLY_LINE_REPO_URL workspace && cd workspace\n2. Evaluate documentation quality in workspace/target/: README, inline comments, API docs, changelogs\n3. Write reports/documentation.md with: documentation coverage score, missing critical docs, quality assessment\n4. Commit and push\n\nExit when done."
-      }
-    },
-    {
-      "id": "synthesis",
-      "name": "SYNTHESIS",
-      "trigger": {
-        "type": "dispatch_worker",
-        "labels": ["vibecheck", "claude-code"],
-        "promptTemplate": "You are the SYNTHESIS agent for the Vibecheck pipeline.\n\n1. Clone the Assembly Line Repository\n2. Read ALL reports in reports/\n3. Write vibecheck-report.md: scored summary (0–10 per category), top findings, recommendations\n4. Commit and push\n\nThis report will be reviewed by a human before delivery."
-      }
-    },
-    {
-      "id": "deliver",
-      "name": "DELIVER",
-      "trigger": {
-        "type": "dispatch_worker",
-        "labels": ["vibecheck", "claude-code"],
-        "promptTemplate": "You are the DELIVER agent for the Vibecheck pipeline.\n\n1. Clone the Assembly Line Repository\n2. Read vibecheck-report.md\n3. Post it as a GitHub comment on the submitted repository's default branch\n4. Use the GitHub API with the credentials available in your environment"
-      }
-    }
-  ],
-  "transitionRules": [
-    {
-      "id": "synthesis-to-deliver",
-      "fromStationId": "synthesis",
-      "toStationId": "deliver",
-      "condition": "success",
-      "gateId": "human-review"
-    }
-  ],
-  "gates": [
-    {
-      "id": "human-review",
-      "name": "Human Review",
-      "description": "A human reviewer checks the Vibecheck report before it is delivered to the submitter.",
-      "requiresApproval": true
-    }
-  ]
+  "description": "Comprehensive AI-powered code review pipeline — 8 specialist stations covering intake, architecture, code quality, security, testing, documentation, synthesis, and delivery.",
+  "version": "1.0.0"
 }
+```
+
+### `.agentics/transitions.json`
+
+Defines the pipeline flow. All transitions are `"condition": "success"`. Only the final transition carries a gate:
+
+```json
+[
+  { "from": "intake",        "to": "architecture",  "condition": "success" },
+  { "from": "architecture",  "to": "code-quality",  "condition": "success" },
+  { "from": "code-quality",  "to": "security",      "condition": "success" },
+  { "from": "security",      "to": "testing",       "condition": "success" },
+  { "from": "testing",       "to": "documentation", "condition": "success" },
+  { "from": "documentation", "to": "synthesis",     "condition": "success" },
+  { "from": "synthesis",     "to": "deliver",       "condition": "success", "gate": "human-review" }
+]
+```
+
+### `.agentics/gates.json`
+
+```json
+[
+  {
+    "id": "human-review",
+    "name": "Human Review",
+    "description": "A human reviewer checks the compiled Vibecheck Report (SYNTHESIS output) before the DELIVER agent posts results to GitHub. Approve to publish, reject to stop delivery.",
+    "requiresApproval": true
+  }
+]
+```
+
+### Station files
+
+Each station lives in `.agentics/stations/XX-name/` and has three files:
+
+**`station.json`** — trigger config:
+
+```json
+{
+  "id": "intake",
+  "name": "INTAKE",
+  "trigger": {
+    "type": "dispatch_worker",
+    "labels": ["vibecheck"],
+    "idleTimeoutMinutes": 5,
+    "maxTimeoutMinutes": 25,
+    "createStageRepo": true
+  }
+}
+```
+
+`createStageRepo: true` on INTAKE tells the platform to provision a fresh git repository for this run. The URL and credentials are injected as `$STAGE_GIT_URL` and `$STAGE_GIT_TOKEN`. All subsequent stations receive the same env vars automatically.
+
+**`prompt.md`** — the agent's task prompt (supports `{{task.title}}` and `{{task.description}}`):
+
+```markdown
+Conduct intake analysis for this Vibecheck submission.
+
+Project: {{task.title}}
+{{task.description}}
+
+## Workspace
+Your current working directory is **the repository being reviewed** — it was cloned by the
+runner before you started. Do not commit or modify files here.
+
+Clone the stage git repository to $STAGE_DIR:
+```bash
+git -c "http.extraHeader=Authorization: Bearer $STAGE_GIT_TOKEN" clone "$STAGE_GIT_URL" "$STAGE_DIR"
+git -C "$STAGE_DIR" config http.extraHeader "Authorization: Bearer $STAGE_GIT_TOKEN"
+```
+
+Write your report to $STAGE_DIR/reports/intake.md, then commit and push:
+```bash
+git -C "$STAGE_DIR" add reports/
+git -C "$STAGE_DIR" commit -m "feat(intake): initial analysis"
+git -C "$STAGE_DIR" push origin main
+```
+
+## Your task
+Explore the repository (your CWD) and write reports/intake.md covering:
+- Tech stack and versions detected
+- Project type and purpose
+- Key entry points and architecture overview
+- Dependency summary
+- Size metrics (file count, LOC by language)
+- Any immediate red flags
+- Recommended focus areas for downstream stations
+```
+
+**`system.md`** — appended to the agent's system prompt to define its role:
+
+```markdown
+You are a Technical Intelligence Officer specialising in rapid codebase comprehension.
+Your role is to deeply understand a submitted project and produce a precise, structured brief
+that downstream agents will rely on. Be factual. Cite specific files and line counts.
+If something is unclear or undocumented, say so explicitly — never assume.
+Set up the stage workspace, write your brief, commit it, then call stop_broadcast.
+```
+
+All 8 stations follow this same three-file pattern. The only differences are `station.json` timeouts and the content of `prompt.md` / `system.md`.
+
+| Station | Role (from system.md) | `maxTimeoutMinutes` |
+|---------|----------------------|---------------------|
+| INTAKE | Technical Intelligence Officer | 25 |
+| ARCHITECTURE | Principal Software Architect | 30 |
+| CODE QUALITY | Senior Code Quality Engineer | 30 |
+| SECURITY | Application Security Engineer | 30 |
+| TESTING | QA Engineer | 30 |
+| DOCUMENTATION | Developer Experience Engineer | 20 |
+| SYNTHESIS | Lead Reviewer | 20 |
+| DELIVER | Delivery Agent | 10 |
+
+---
+
+## Stage Repository Flow
+
+At INTAKE, the platform creates a fresh stage git repository for this run. Every subsequent agent clones it, writes a report, and pushes. The git history is a complete, ordered audit trail of the review.
+
+The runner pre-clones the **submitted repository** into each worker's CWD — agents do not need to fetch the target repo themselves.
+
+```
+INTAKE:         CWD = submitted repo (pre-cloned by runner)
+                clone stage repo → $STAGE_DIR
+                writes $STAGE_DIR/reports/intake.md
+                git push
+
+ARCHITECTURE:   CWD = submitted repo
+                clone stage repo → $STAGE_DIR
+                reads  $STAGE_DIR/reports/intake.md
+                writes $STAGE_DIR/reports/architecture.md
+                git push
+
+SECURITY:       CWD = submitted repo
+                clone stage repo → $STAGE_DIR
+                reads  $STAGE_DIR/reports/intake.md + architecture.md
+                writes $STAGE_DIR/reports/security.md
+                git push
+
+... (CODE QUALITY, TESTING, DOCUMENTATION) ...
+
+SYNTHESIS:      clone stage repo → $STAGE_DIR
+                reads  $STAGE_DIR/reports/*.md
+                writes $STAGE_DIR/vibecheck-report.md
+                git push
+
+DELIVER:        clone stage repo → $STAGE_DIR
+                reads  $STAGE_DIR/vibecheck-report.md
+                POSTs  artifact to Agentics API
+                writes $STAGE_DIR/reports/delivery-result.md
+                git push
 ```
 
 ---
 
-## Assembly Line Repository Flow
+## Vibe Score
+
+SYNTHESIS produces a weighted composite score across five dimensions:
+
+| Dimension     | Weight |
+|---------------|--------|
+| Security      | 30%    |
+| Code Quality  | 25%    |
+| Architecture  | 20%    |
+| Testing       | 15%    |
+| Documentation | 10%    |
+
+Each dimension is scored 0–10. A total Vibe Score below **6.0 / 10** is a failing grade.
+
+---
+
+## DELIVER: Agentics Artifact Store
+
+DELIVER does not post a GitHub comment. It POSTs a structured artifact to the Agentics REST API:
 
 ```
-INTAKE:         git clone repo → target/
-                writes reports/intake.md
-                git push
+POST ${AGENTICS_BASE_URL}/api/owners/${AGENTICS_OWNER}/projects/${AGENTICS_PROJECT_NAME}/artifacts
+Authorization: Bearer $AGENTICS_TOKEN
+Content-Type: application/json
 
-ARCHITECTURE:   git clone ALR
-                reads  reports/intake.md
-                writes reports/architecture.md
-                git push
-
-SECURITY:       git clone ALR
-                reads  reports/intake.md + architecture.md
-                writes reports/security.md
-                git push
-
-... (TESTING, DOCUMENTATION) ...
-
-SYNTHESIS:      git clone ALR
-                reads  reports/*.md
-                writes vibecheck-report.md
-                git push
-
-DELIVER:        git clone ALR
-                reads  vibecheck-report.md
-                posts  GitHub comment
+{
+  "type": "vibecheck",
+  "name": "Vibecheck — <project>",
+  "data": {
+    "vibeScore": 7.4,
+    "categories": {
+      "security":      { "score": 8 },
+      "codeQuality":   { "score": 7 },
+      "architecture":  { "score": 7 },
+      "testing":       { "score": 6 },
+      "documentation": { "score": 9 }
+    },
+    "reportMarkdown": "..."
+  }
+}
 ```
 
-Each Agent works independently but builds on the work of previous Agents via the shared Assembly Line Repository (ALR). The git history is the complete audit trail.
+The response includes an `id` used to construct the public artifact URL:
+```
+https://agentics.dk/project/{owner}/{project}/artifacts/{id}
+```
+
+This page displays the Vibe Score as a diploma-style number with per-category score bars and the full report in a collapsible section.
+
+---
+
+## Plugin Skills
+
+The repo ships a reusable skill at `plugin/skills/deliver-vibecheck/SKILL.md`. This is an example of how assembly lines can bundle custom skills that agents load at runtime — the DELIVER station's `prompt.md` references it directly:
+
+> *Follow the `deliver-vibecheck` skill (see plugin/skills/deliver-vibecheck/SKILL.md)*
+
+This pattern keeps complex multi-step instructions out of the prompt and makes them reusable across assembly lines.
 
 ---
 
@@ -176,12 +270,12 @@ Each Agent works independently but builds on the work of previous Agents via the
 | Concept | In Vibecheck |
 |---|---|
 | Assembly Line | The 8-station Vibecheck pipeline |
-| Stations | INTAKE, ARCHITECTURE, SECURITY, etc. |
+| Stations | INTAKE, ARCHITECTURE, CODE QUALITY, SECURITY, TESTING, DOCUMENTATION, SYNTHESIS, DELIVER |
 | Task Card | GitHub repo URL + description in task description field |
-| Agent Definition | `promptTemplate` per Station, rendered with task data |
-| Assembly Line Repository | Created at INTAKE, shared across all 8 Stations |
-| Transition Rule | SYNTHESIS → DELIVER blocked by HUMAN_REVIEW gate |
-| Gate | Human approves the report before DELIVER sends it |
+| Agent Definition | `prompt.md` + `system.md` per station, rendered with `{{task.title}}` / `{{task.description}}` |
+| Stage Repository | Created at INTAKE (`createStageRepo: true`), shared across all 8 stations via `$STAGE_GIT_URL` / `$STAGE_GIT_TOKEN` / `$STAGE_DIR` |
+| Transition Rules | `transitions.json` — 7 rules, all `condition: success` |
+| Gate | `human-review` gate blocks SYNTHESIS → DELIVER; human approves before artifact is published |
 | Task lifecycle | queued → in_progress (×8) → awaiting_review → completed |
-| Labels | `["vibecheck", "claude-code"]` — any Claude Code client with the vibecheck label |
-| Default transitions | All other Station-to-Station flows use the default (success → next) |
+| Labels | `["vibecheck"]` — any worker registered with the vibecheck label |
+| Plugin Skills | `plugin/skills/deliver-vibecheck/` — reusable delivery skill bundled with the assembly line |
