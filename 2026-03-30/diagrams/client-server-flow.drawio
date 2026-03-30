@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-03-30" version="21.0.0">
+  <diagram name="Client-Server Flow" id="client-server-flow">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="920" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ══════════════════════════════════════════════════
+             TITLE
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="title" value="Assembly Line Protocol (ALP) — Job Execution Sequence (Happy Path)"
+          style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=15;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="100" y="14" width="1100" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             PARTICIPANT HEADER BOXES
+             Server=130cx  Client=380cx  Operator=650cx  Agent=920cx
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="h-server" value="&lt;b&gt;SERVER&lt;/b&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="52" width="160" height="42" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-client" value="&lt;b&gt;CLIENT&lt;/b&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;"
+          vertex="1" parent="1">
+          <mxGeometry x="300" y="52" width="160" height="42" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-operator" value="&lt;b&gt;OPERATOR&lt;/b&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=13;"
+          vertex="1" parent="1">
+          <mxGeometry x="570" y="52" width="160" height="42" as="geometry" />
+        </mxCell>
+
+        <mxCell id="h-agent" value="&lt;b&gt;AGENT&lt;/b&gt;"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;"
+          vertex="1" parent="1">
+          <mxGeometry x="840" y="52" width="160" height="42" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             VERTICAL LIFELINES  (x = centre of each participant)
+        ══════════════════════════════════════════════════ -->
+        <!-- Server lifeline cx=130 -->
+        <mxCell id="ll-s" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#6c8ebf;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="94" as="sourcePoint" />
+            <mxPoint x="130" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Client lifeline cx=380 -->
+        <mxCell id="ll-c" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="94" as="sourcePoint" />
+            <mxPoint x="380" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Operator lifeline cx=650 -->
+        <mxCell id="ll-o" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#d6b656;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="94" as="sourcePoint" />
+            <mxPoint x="650" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Agent lifeline cx=920 -->
+        <mxCell id="ll-a" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#9673a6;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="94" as="sourcePoint" />
+            <mxPoint x="920" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             PHASE BACKGROUND BANDS
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="band-poll" value="POLL" style="text;html=1;strokeColor=#6c8ebf;fillColor=#f0f7ff;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#6c8ebf;rounded=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="1190" y="115" width="80" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="band-exec" value="EXECUTE" style="text;html=1;strokeColor=#d6b656;fillColor=#fffdf0;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#d6b656;rounded=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="1190" y="290" width="80" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="band-report" value="REPORT" style="text;html=1;strokeColor=#82b366;fillColor=#f0fff0;align=center;verticalAlign=middle;fontSize=11;fontStyle=1;fontColor=#82b366;rounded=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="1190" y="740" width="80" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 1 — Client polls, server has no job (204)
+             y = 130
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s1-label" value="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="122" width="22" height="22" as="geometry" />
+        </mxCell>
+        <!-- request arrow: Client → Server -->
+        <mxCell id="s1-req" value="POST /runners/jobs"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;align=center;exitX=0;exitY=0.5;exitDx=0;exitDy=0;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="133" as="sourcePoint" />
+            <mxPoint x="130" y="133" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- response arrow: Server → Client -->
+        <mxCell id="s1-res" value="HTTP 204 — no jobs available"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="152" as="sourcePoint" />
+            <mxPoint x="380" y="152" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- wait box -->
+        <mxCell id="wait-box" value="⏱  wait 10 s  (polling interval)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff9e6;strokeColor=#d6b656;fontSize=10;fontStyle=2;align=center;"
+          vertex="1" parent="1">
+          <mxGeometry x="292" y="163" width="176" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 2 — Client polls, server returns a job (200)
+             y = 200
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s2-label" value="2" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="195" width="22" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-req" value="POST /runners/jobs"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="206" as="sourcePoint" />
+            <mxPoint x="130" y="206" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s2-res" value="HTTP 200 — { jobs: [{ id, agentDefinition: { prompt, labels, taskId, assemblyLineRepoUrl, ... } }] }"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="226" as="sourcePoint" />
+            <mxPoint x="380" y="226" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- separator -->
+        <mxCell id="sep1" value="" style="endArrow=none;html=1;strokeColor=#dddddd;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="44" y="250" as="sourcePoint" />
+            <mxPoint x="1180" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 3 — Client spawns Operator
+             y = 270
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s3-label" value="3" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d6b656;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="264" width="22" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="spawn Operator(agentDefinition)"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="275" as="sourcePoint" />
+            <mxPoint x="650" y="275" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 4 — Operator starts Agent
+             y = 320
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s4-label" value="4" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9673a6;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="314" width="22" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s4a" value="exec claude --prompt-file initial-prompt.txt"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#9673a6;strokeWidth=2;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="325" as="sourcePoint" />
+            <mxPoint x="920" y="325" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s4b" value="+ ASSEMBLY_LINE_REPO_URL, ASSEMBLY_LINE_REPO_TOKEN, AGENTICS_JOB_ID + MCP server config"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#9673a6;strokeWidth=1;dashed=1;fontSize=9;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="345" as="sourcePoint" />
+            <mxPoint x="920" y="345" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- streaming note -->
+        <mxCell id="stream-note" value="  📺  Operator streams Agent terminal output → WebSocket relay → Viewer  (runs concurrently through steps 4–7)"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#666666;fontSize=9;fontStyle=2;align=center;dashed=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="570" y="360" width="560" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 5 — Agent clones Assembly Line Repo, works, pushes
+             y = 400–490
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s5-label" value="5" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9673a6;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="395" width="22" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- Agent activation box -->
+        <mxCell id="agent-active" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="910" y="400" width="20" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- ALR box -->
+        <mxCell id="alr" value="Assembly Line Repository"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="1075" y="420" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5-clone" value="git clone $ASSEMBLY_LINE_REPO_URL"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#666666;strokeWidth=1;dashed=1;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930" y="408" as="sourcePoint" />
+            <mxPoint x="1075" y="428" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="s5-work" value="Agent executes Station task  (reads prompt, uses tools, writes files)"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#666666;"
+          vertex="1" parent="1">
+          <mxGeometry x="835" y="443" width="380" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5-push" value="git add . &amp;&amp; git commit &amp;&amp; git push"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#666666;strokeWidth=1;dashed=1;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="930" y="470" as="sourcePoint" />
+            <mxPoint x="1075" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 6 — Agent calls complete_station MCP tool
+             y = 540
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s6-label" value="6" style="ellipse;whiteSpace=wrap;html=1;fillColor=#9673a6;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="533" width="22" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" value="complete_station(conclusion: &quot;success&quot;, summary: &quot;...&quot;)  ← MCP tool call"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#9673a6;strokeWidth=2;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="544" as="sourcePoint" />
+            <mxPoint x="650" y="544" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 7 — Agent exits, Operator detects and exits
+             y = 600
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s7-label" value="7" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d6b656;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="593" width="22" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s7a" value="process exit(0)"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#9673a6;strokeWidth=1;dashed=1;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="604" as="sourcePoint" />
+            <mxPoint x="650" y="604" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s7b" value="Operator records outcome, exits(0)"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="624" as="sourcePoint" />
+            <mxPoint x="380" y="624" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- separator -->
+        <mxCell id="sep2" value="" style="endArrow=none;html=1;strokeColor=#dddddd;strokeWidth=1;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="44" y="648" as="sourcePoint" />
+            <mxPoint x="1180" y="648" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 8 — Client reports result to Server
+             y = 670
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s8-label" value="8" style="ellipse;whiteSpace=wrap;html=1;fillColor=#82b366;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="663" width="22" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s8" value="PATCH /runners/{id}   { jobResult: &quot;success&quot;, exitCode: 0 }"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="674" as="sourcePoint" />
+            <mxPoint x="130" y="674" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s8-res" value="HTTP 200 OK"
+          style="endArrow=open;endFill=0;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;fontSize=10;align=center;"
+          edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="690" as="sourcePoint" />
+            <mxPoint x="380" y="690" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             STEP 9 — Server applies Transition Rules, Task advances
+             y = 730
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="s9-label" value="9" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;fontColor=#ffffff;strokeColor=none;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="18" y="723" width="22" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s9-box" value="Server evaluates Transition Rules"
+          style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="726" width="170" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="s9-adv" value="Task condition: success + not last Station  →  Task queued at next Station"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#6c8ebf;"
+          vertex="1" parent="1">
+          <mxGeometry x="230" y="726" width="580" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="s9-or" value="OR:  last Station  →  Task = completed"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#82b366;"
+          vertex="1" parent="1">
+          <mxGeometry x="230" y="756" width="380" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s9-or2" value="OR:  Transition Rule gate  →  Task = awaiting_review"
+          style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#d6b656;"
+          vertex="1" parent="1">
+          <mxGeometry x="230" y="776" width="420" height="22" as="geometry" />
+        </mxCell>
+
+        <!-- ══════════════════════════════════════════════════
+             FALLBACK PATH — crash / timeout
+        ══════════════════════════════════════════════════ -->
+        <mxCell id="fallback-title" value="⚡ Crash / Timeout Path" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontStyle=1;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="50" y="816" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="fallback-desc" value="If Agent exits without calling complete_station → Claude Code stop hook fires → hook calls complete_station(conclusion: &quot;failure&quot;) → Operator exits non-zero → Client reports { jobResult: &quot;failed&quot; }" style="text;html=1;strokeColor=#f8cecc;fillColor=#fff0f0;align=left;verticalAlign=middle;fontSize=10;fontColor=#b85450;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="836" width="1000" height="30" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

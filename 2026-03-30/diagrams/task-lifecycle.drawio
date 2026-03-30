@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-03-30" version="21.0.0">
+  <diagram name="Task Lifecycle" id="task-lifecycle">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ═══ TITLE ═══ -->
+        <mxCell id="title" value="Assembly Line Protocol (ALP) — Task Lifecycle" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="15" width="760" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ ENTRY POINT ═══ -->
+        <mxCell id="entry" value="Task Submitted" style="ellipse;whiteSpace=wrap;html=1;fillColor=#000000;fontColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="130" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ STATES ═══ -->
+        <mxCell id="queued" value="queued" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="280" y="120" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="claimed" value="claimed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="500" y="120" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="in_progress" value="in_progress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="720" y="120" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="awaiting_review" value="awaiting_review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="720" y="310" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="completed" value="completed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="960" y="60" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="failed" value="failed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="960" y="260" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ STATE DESCRIPTIONS ═══ -->
+        <mxCell id="desc-queued" value="Waiting for a Client to claim the Job" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="265" y="193" width="170" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="desc-claimed" value="Client is starting the Operator" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="485" y="193" width="170" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="desc-progress" value="Agent is executing the Station task" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="705" y="193" width="170" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="desc-review" value="Human review gate — waiting for approval" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="700" y="383" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="desc-completed" value="All Stations done ✓" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="945" y="133" width="170" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="desc-failed" value="Station failed, pipeline stopped" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#666666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="945" y="333" width="170" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ ARROWS ═══ -->
+
+        <!-- Entry → queued -->
+        <mxCell id="e1" value="submit" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#333333;strokeWidth=2;fontSize=10;" edge="1" source="entry" target="queued" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- queued → claimed -->
+        <mxCell id="e2" value="Client polls → job available" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=10;" edge="1" source="queued" target="claimed" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- claimed → in_progress -->
+        <mxCell id="e3" value="Operator starts Agent" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" edge="1" source="claimed" target="in_progress" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- in_progress → completed (last station, success) -->
+        <mxCell id="e4" value="success + last station" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="in_progress" target="completed" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="95" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- in_progress → queued (success, not last station — loops back) -->
+        <mxCell id="e5" value="success + more stations" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="in_progress" target="queued" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="240" />
+              <mxPoint x="350" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- in_progress → awaiting_review (gate triggered) -->
+        <mxCell id="e6" value="Transition Rule: gate" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=10;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="in_progress" target="awaiting_review" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- in_progress → failed (failure) -->
+        <mxCell id="e7" value="failure" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;fontSize=10;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="in_progress" target="failed" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="190" />
+              <mxPoint x="900" y="295" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- awaiting_review → queued (approved) -->
+        <mxCell id="e8" value="human approves" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="awaiting_review" target="queued" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="345" />
+              <mxPoint x="200" y="155" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- awaiting_review → failed (rejected) -->
+        <mxCell id="e9" value="human rejects" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;fontSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="awaiting_review" target="failed" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="950" y="345" />
+              <mxPoint x="1030" y="345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ═══ TERMINAL STATE MARKERS ═══ -->
+        <mxCell id="completed-end" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1135" y="85" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="failed-end" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1135" y="285" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="e-completed-end" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" source="completed" target="completed-end" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-failed-end" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" source="failed" target="failed-end" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-03-30" version="21.0.0">
+  <diagram name="ALP Architecture" id="alp-architecture">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ═══ TITLE ═══ -->
+        <mxCell id="title" value="Assembly Line Protocol (ALP) — System Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="10" width="760" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ SERVER ═══ -->
+        <mxCell id="server" value="&lt;b&gt;SERVER&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:11px&apos;&gt;agentics.dk (reference implementation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=0;arcSize=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="50" width="560" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="server-items" value="Assembly Lines  ·  Task Queue  ·  Client Registry  ·  Transition Rules  ·  Gates" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="100" width="560" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="server-outline" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#6c8ebf;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="50" width="560" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ CLIENT ═══ -->
+        <mxCell id="client" value="&lt;b&gt;CLIENT / RUNNER&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:11px&apos;&gt;pks-cli (reference implementation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=0;arcSize=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="210" width="560" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="client-items" value="Polls for Jobs  ·  Claims Tasks  ·  Spawns Operators  ·  Reports Outcomes" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="260" width="560" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="client-outline" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#82b366;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="210" width="560" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ OPERATOR ═══ -->
+        <mxCell id="operator" value="&lt;b&gt;OPERATOR (Station Operator)&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:11px&apos;&gt;vibecast (reference implementation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=13;fontStyle=0;arcSize=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="370" width="560" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="operator-items" value="Sets up Workspace  ·  Exposes MCP Server (complete_station)  ·  Runs Agent  ·  Streams Output" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="420" width="560" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="operator-outline" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#d6b656;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="370" width="560" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ AGENT ═══ -->
+        <mxCell id="agent" value="&lt;b&gt;AGENT&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:11px&apos;&gt;Claude Code (reference implementation)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontStyle=0;arcSize=8;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="530" width="560" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="agent-items" value="Reads Prompt  ·  Executes Station Work  ·  Calls complete_station MCP tool  ·  Exits" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="580" width="560" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="agent-outline" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#9673a6;strokeWidth=2;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="530" width="560" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ ASSEMBLY LINE REPOSITORY ═══ -->
+        <mxCell id="alr" value="&lt;b&gt;Assembly Line Repository&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:10px&apos;&gt;one per Task · hosted by Server&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="910" y="555" width="190" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ VIEWER (optional) ═══ -->
+        <mxCell id="viewer" value="&lt;b&gt;Viewer&lt;/b&gt;&lt;br/&gt;&lt;font style=&apos;font-size:10px&apos;&gt;browser / live stream&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontColor=#666666;fontSize=11;arcSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="390" width="150" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="viewer-label" value="optional" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=9;fontColor=#999999;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="438" width="150" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- ═══ ARROWS ═══ -->
+
+        <!-- Server ↔ Client: HTTP poll + report -->
+        <mxCell id="arrow-server-client" value="HTTP short-poll (POST /runners/jobs)&lt;br/&gt;Bearer token auth" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#6c8ebf;fontSize=10;" edge="1" source="server-outline" target="client-outline" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow-client-server" value="PATCH /runners/{id} (result)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.4;exitY=0;exitDx=0;exitDy=0;entryX=0.4;entryY=1;entryDx=0;entryDy=0;strokeColor=#82b366;strokeWidth=1;fontColor=#82b366;fontSize=10;dashed=1;" edge="1" source="client-outline" target="server-outline" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="364" y="200" />
+              <mxPoint x="364" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Client → Operator: spawns -->
+        <mxCell id="arrow-client-operator" value="spawns per-job" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#d6b656;strokeWidth=2;fontColor=#d6b656;fontSize=10;" edge="1" source="client-outline" target="operator-outline" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Operator → Agent: exec + MCP -->
+        <mxCell id="arrow-operator-agent" value="exec + env vars + MCP server" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#9673a6;strokeWidth=2;fontColor=#9673a6;fontSize=10;" edge="1" source="operator-outline" target="agent-outline" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Agent → Assembly Line Repo -->
+        <mxCell id="arrow-agent-alr" value="git clone / push" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#666666;strokeWidth=1;fontColor=#666666;fontSize=10;dashed=1;" edge="1" source="agent-outline" target="alr" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Operator → Viewer: WebSocket stream -->
+        <mxCell id="arrow-operator-viewer" value="WebSocket stream" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#999999;strokeWidth=1;fontColor=#999999;fontSize=10;dashed=1;" edge="1" source="operator-outline" target="viewer" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Operator ← Agent: complete_station MCP call (return) -->
+        <mxCell id="arrow-agent-operator" value="complete_station()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.35;exitY=0;exitDx=0;exitDy=0;entryX=0.35;entryY=1;entryDx=0;entryDy=0;strokeColor=#9673a6;strokeWidth=1;fontColor=#9673a6;fontSize=10;dashed=1;" edge="1" source="agent-outline" target="operator-outline" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="456" y="520" />
+              <mxPoint x="456" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend-title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="480" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-required" value="━━  required flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="150" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-optional" value="╌╌  optional / async" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontColor=#999999;" vertex="1" parent="1">
+          <mxGeometry x="50" y="518" width="150" height="18" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
