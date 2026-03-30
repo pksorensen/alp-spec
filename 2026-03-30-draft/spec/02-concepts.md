@@ -95,3 +95,34 @@ Examples: `linux`, `claude-code`, `gpu`, `x86_64`, `vibecheck`
 | **Examples** | pks-cli | Claude Code, GPT-4 CLI |
 
 A Runner can manage multiple Operators simultaneously, each running a different type of Agent. The Runner does not decide *what* the Agent does — that is determined by the Station's Agent Definition on the Server.
+
+---
+
+## Security Concepts
+
+### Credential Server
+A Unix socket hosted by the Runner at `/run/alp/cred.sock`, bind-mounted into the devcontainer. Agents call it to request scoped, short-lived (JIT) tokens for external services. The Runner holds all real credentials; the Agent only ever receives proxy tokens scoped to the current Job.
+
+*See [11-security.md](11-security.md)*
+
+### Egress Proxy
+An HTTP/HTTPS proxy run by the Runner (typically at `host-gateway:3128`) through which all outbound container traffic routes. The proxy enforces an allow-list of permitted destinations, performs Token Swap on requests, logs all egress, and can enforce Human DMZ Gates on sensitive operations.
+
+*See [11-security.md](11-security.md)*
+
+### Workload Identity
+The runtime identity of an Agent, derived from its `ALP_JOB_ID` and `ALP_STATION_LABELS` rather than from a static secret. The Credential Server uses workload identity to determine which services an Agent is permitted to access. Modelled on GitHub Actions OIDC / Azure federated credentials.
+
+*See [11-security.md](11-security.md)*
+
+### JIT Token (Just-In-Time Token)
+A short-lived, scoped credential issued by the Credential Server to a requesting Agent. A JIT token is valid only for the current Job's lifetime and only for the service and scopes it was issued for. It is not the real service credential — it is a proxy reference that the Egress Proxy swaps for the real credential at the DMZ boundary.
+
+### Token Swap
+The action performed by the Egress Proxy when forwarding an Agent's outbound request: the proxy recognises the JIT token in the `Authorization` header, replaces it with the real service credential stored on the host, and forwards the request. The real credential never leaves the host process.
+
+### Human DMZ Gate
+An approval gate implemented at the Egress Proxy level (as distinct from a pipeline-level Gate in Transition Rules). A Human DMZ Gate holds a live, in-flight HTTP request from the Agent and waits for human approval before forwarding it. Used for sensitive operations like production deploys.
+
+### Sandbox
+The isolated execution environment (typically a devcontainer) in which the Operator and Agent run. The sandbox has no host filesystem access, no Docker daemon access, and no raw service credentials. All privilege is mediated by the Runner via the Credential Server and Egress Proxy.

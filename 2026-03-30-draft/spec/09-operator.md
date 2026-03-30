@@ -1,4 +1,4 @@
-# 09 — Operator (Station Operator)
+# 09 — Operator
 
 A **Station Operator** (Operator) is spawned by the Runner for each Job. It manages the entire execution lifecycle at one Station: setting up the workspace, starting the Agent, streaming output to viewers, detecting completion, and exiting with an outcome code.
 
@@ -126,6 +126,20 @@ The reference implementation (vibecast) uses:
 - **ws-relay** — the ALP Server's WebSocket relay that fans out the stream to multiple viewers
 
 See [docs/terminal-sizing.md](../../docs/terminal-sizing.md) for terminal dimension details.
+
+---
+
+## Sandbox Context
+
+The Operator runs **inside the devcontainer sandbox** created by the Runner. This means:
+- It has no access to the host filesystem except explicit bind mounts
+- It cannot talk to the Docker daemon directly
+- It has access to `/run/alp/cred.sock` (mounted by the Runner) for credential requests
+- All outbound HTTP/HTTPS routes through the Runner's Egress Proxy (`HTTP_PROXY` env var)
+
+For git credential injection, the Operator SHOULD call the Credential Server to retrieve a scoped token rather than relying on env-var secrets. This is consistent with the broader ALP security model where the Agent never holds real credentials.
+
+> For the full security model, see [11-security.md](11-security.md).
 
 ---
 

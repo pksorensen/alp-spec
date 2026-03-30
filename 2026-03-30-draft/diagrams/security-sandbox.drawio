@@ -1,0 +1,167 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- HOST MACHINE outer box -->
+    <mxCell id="2" value="HOST MACHINE (privileged)" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.cisco.sites.generic_building;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=14;fontStyle=1;verticalLabelPosition=top;verticalAlign=bottom;align=center;outlineConnect=0;" vertex="1" parent="1">
+      <mxGeometry x="20" y="20" width="1130" height="780" as="geometry" />
+    </mxCell>
+    <mxCell id="2b" value="HOST MACHINE (privileged)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;fontSize=14;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="30" y="28" width="300" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="host_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="20" y="20" width="1130" height="780" as="geometry" />
+    </mxCell>
+    <mxCell id="host_label" value="HOST MACHINE (privileged)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=15;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="35" y="32" width="350" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- Runner box -->
+    <mxCell id="runner" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="50" y="80" width="320" height="480" as="geometry" />
+    </mxCell>
+    <mxCell id="runner_label" value="ALP RUNNER" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#00338d;" vertex="1" parent="1">
+      <mxGeometry x="50" y="86" width="320" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="runner_sub" value="(pks-cli)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;fontColor=#00338d;" vertex="1" parent="1">
+      <mxGeometry x="50" y="110" width="320" height="24" as="geometry" />
+    </mxCell>
+
+    <!-- Runner components -->
+    <mxCell id="token_store" value="🔑  Registered Service Tokens&#xa;Coolify API key&#xa;Registry PAT&#xa;GitHub token" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="70" y="150" width="280" height="90" as="geometry" />
+    </mxCell>
+    <mxCell id="cred_server" value="⚙️  Credential Server&#xa;/run/alp/cred.sock&#xa;GET /token · POST /proxy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="70" y="260" width="280" height="90" as="geometry" />
+    </mxCell>
+    <mxCell id="egress_proxy" value="🛡️  Egress Proxy&#xa;host-gateway:3128&#xa;Token swap · Allow-list · Human gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="70" y="370" width="280" height="90" as="geometry" />
+    </mxCell>
+    <mxCell id="docker_ctrl" value="🐳  Docker Daemon Control&#xa;Creates / destroys sandbox containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="70" y="480" width="280" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Devcontainer sandbox box -->
+    <mxCell id="sandbox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;dashed=1;dashPattern=8 4;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="430" y="80" width="680" height="600" as="geometry" />
+    </mxCell>
+    <mxCell id="sandbox_label" value="DEVCONTAINER  (isolated sandbox)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#2d6a2d;" vertex="1" parent="1">
+      <mxGeometry x="430" y="88" width="680" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="sandbox_desc" value="No host filesystem · No Docker socket · No raw tokens" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=11;fontStyle=2;fontColor=#2d6a2d;" vertex="1" parent="1">
+      <mxGeometry x="430" y="114" width="680" height="24" as="geometry" />
+    </mxCell>
+
+    <!-- Bind mounts strip inside sandbox -->
+    <mxCell id="mounts" value="Bind mounts injected by Runner:     /run/alp/cred.sock    ·    http_proxy=host-gateway:3128    ·    workspace/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1">
+      <mxGeometry x="450" y="145" width="640" height="35" as="geometry" />
+    </mxCell>
+
+    <!-- Operator box -->
+    <mxCell id="operator" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="470" y="210" width="600" height="180" as="geometry" />
+    </mxCell>
+    <mxCell id="operator_label" value="OPERATOR" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#00338d;" vertex="1" parent="1">
+      <mxGeometry x="470" y="218" width="600" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="operator_sub" value="(vibecast — Go CLI)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;fontColor=#00338d;" vertex="1" parent="1">
+      <mxGeometry x="470" y="242" width="600" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="operator_detail" value="Sets up workspace · Configures git credentials via cred.sock · Starts Agent · Streams output via tmux+ttyd · Exposes MCP server (complete_station)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="480" y="266" width="580" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="mcp_badge" value="MCP Server (complete_station)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="640" y="324" width="240" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Agent box -->
+    <mxCell id="agent" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="470" y="420" width="600" height="200" as="geometry" />
+    </mxCell>
+    <mxCell id="agent_label" value="AGENT" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=14;fontStyle=1;fontColor=#6d0000;" vertex="1" parent="1">
+      <mxGeometry x="470" y="428" width="600" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="agent_sub" value="(Claude Code)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;fontColor=#6d0000;" vertex="1" parent="1">
+      <mxGeometry x="470" y="452" width="600" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="agent_detail" value="Receives prompt · Executes work · Reads/writes Assembly Line Repo&#xa;Calls /run/alp/cred.sock for scoped JIT tokens&#xa;All outbound HTTP routes through http_proxy (egress proxy)&#xa;Calls complete_station MCP tool when done" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="480" y="478" width="580" height="70" as="geometry" />
+    </mxCell>
+    <mxCell id="env_badge" value="ALP_JOB_ID · ALP_STATION_LABELS&#xa;(workload identity — no raw tokens)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="490" y="562" width="300" height="44" as="geometry" />
+    </mxCell>
+
+    <!-- ALP Server (external, above) -->
+    <mxCell id="alp_server" value="ALP SERVER&#xa;(agentics.dk)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="50" y="620" width="210" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- External services (right side, outside host box — overlapping edge) -->
+    <mxCell id="ext_title" value="EXTERNAL SERVICES" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="860" y="710" width="270" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="coolify_svc" value="Coolify API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="870" y="738" width="120" height="44" as="geometry" />
+    </mxCell>
+    <mxCell id="registry_svc" value="Container Registry&#xa;(ghcr.io)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="1010" y="738" width="120" height="44" as="geometry" />
+    </mxCell>
+
+    <!-- ARROWS -->
+
+    <!-- Runner creates Docker container (Runner → sandbox) -->
+    <mxCell id="arr_creates" value="creates / destroys" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#6c8ebf;fontColor=#00338d;fontSize=11;endArrow=block;endFill=1;" edge="1" source="runner" target="sandbox" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- cred.sock mount (Cred Server → sandbox mounts strip) -->
+    <mxCell id="arr_sock" value="/run/alp/cred.sock&#xa;(bind mount)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#82b366;fontColor=#2d6a2d;fontSize=11;dashed=1;endArrow=open;endFill=0;" edge="1" source="cred_server" target="mounts" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Egress proxy env injection -->
+    <mxCell id="arr_proxy_env" value="http_proxy env&#xa;injected" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#b85450;fontColor=#6d0000;fontSize=11;dashed=1;endArrow=open;endFill=0;" edge="1" source="egress_proxy" target="agent" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Operator spawns Agent -->
+    <mxCell id="arr_spawn" value="spawns" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#6c8ebf;fontColor=#00338d;fontSize=11;endArrow=block;endFill=1;" edge="1" source="operator" target="agent" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Runner polls ALP Server -->
+    <mxCell id="arr_polls" value="polls for jobs&#xa;(HTTP Bearer)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#d79b00;fontColor=#7d4e00;fontSize=11;endArrow=open;endFill=0;" edge="1" source="runner" target="alp_server" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Egress proxy to external services -->
+    <mxCell id="arr_ext1" value="token swapped&#xa;real key never&#xa;seen by agent" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#b85450;fontColor=#6d0000;fontSize=10;endArrow=block;endFill=1;" edge="1" source="egress_proxy" target="coolify_svc" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="arr_ext2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#b85450;fontSize=11;endArrow=block;endFill=1;" edge="1" source="egress_proxy" target="registry_svc" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Legend -->
+    <mxCell id="legend_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="300" y="620" width="400" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="legend_title" value="Legend" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="315" y="628" width="200" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="leg1" value="HOST MACHINE — privileged, holds real credentials" style="text;html=1;strokeColor=none;fillColor=#f5f5f5;align=left;verticalAlign=middle;fontSize=11;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="315" y="654" width="370" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="leg2" value="ALP RUNNER — infrastructure daemon, credential broker" style="text;html=1;strokeColor=none;fillColor=#dae8fc;align=left;verticalAlign=middle;fontSize=11;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="315" y="682" width="370" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="leg3" value="DEVCONTAINER — isolated sandbox, no raw credentials" style="text;html=1;strokeColor=none;fillColor=#d5e8d4;align=left;verticalAlign=middle;fontSize=11;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="315" y="710" width="370" height="24" as="geometry" />
+    </mxCell>
+    <mxCell id="leg4" value="AGENT — AI process, uses scoped JIT tokens only" style="text;html=1;strokeColor=none;fillColor=#f8cecc;align=left;verticalAlign=middle;fontSize=11;spacingLeft=6;" vertex="1" parent="1">
+      <mxGeometry x="315" y="738" width="370" height="24" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>

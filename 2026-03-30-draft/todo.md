@@ -13,13 +13,19 @@
 | `spec/06-transition-rules.md` | DRAFT | v1 + agentic conditions future section |
 | `spec/07-server.md` | DRAFT | Real API surface, auth WIP noted |
 | `spec/08-client.md` | DRAFT | Completion schema, polling, auth |
-| `spec/09-operator.md` | DRAFT | Completion signaling, vibecast pattern |
+| `spec/09-operator.md` | DRAFT | Completion signaling, vibecast pattern, sandbox note |
 | `spec/10-agent.md` | DRAFT | Assembly Line Repository, exit codes |
+| `spec/11-security.md` | DONE | Runner security model, credential server, egress proxy, DMZ human gate |
 | `diagrams/architecture.drawio` | DONE | 4-role system architecture diagram |
 | `diagrams/task-lifecycle.drawio` | DONE | State machine with all transitions |
 | `diagrams/client-server-flow.drawio` | DONE | 9-step sequence diagram with phase bands |
+| `diagrams/security-sandbox.drawio` | DONE | Host/sandbox boundary with runner, devcontainer, agent layers |
+| `diagrams/security-credential-flow.drawio` | DONE | Sequence: token request, workload identity check, JIT token, proxy call, token swap |
+| `diagrams/security-egress-proxy.drawio` | DONE | DMZ zones: sandbox → runner egress → external services; human gate |
+| `diagrams/security-coolify-example.drawio` | DONE | End-to-end swimlane: build → registry push → human-gated Coolify deploy |
 | `examples/vibecheck.md` | DONE | Full 8-station pipeline, all prompts complete |
 | `examples/hello-world.md` | DONE | Minimal 2-station example with curl + step table |
+| `examples/coolify-registry-deploy.md` | DONE | Credential-gated build + deploy example with Coolify + ghcr.io |
 
 ---
 
@@ -31,6 +37,7 @@
 - [x] **M4 — Diagrams drawn**: all three drawio files have proper diagrams
 - [x] **M5 — Examples complete**: vibecheck + hello-world are fully worked examples
 - [x] **M6 — Publishable**: `/spec/` route live — sidebar nav, markdown rendering, syntax highlighting
+- [x] **M7 — Security model**: spec/11 written; 4 drawio diagrams; coolify-registry-deploy example; concepts + runner + operator updated
 
 ---
 

@@ -1,0 +1,195 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- Title -->
+    <mxCell id="title" value="ALP Egress DMZ — Agent Traffic and Human Gate" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="0" y="10" width="1400" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- ── ZONE 1: SANDBOX ──────────────────────────────────── -->
+    <mxCell id="zone_sandbox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;dashed=1;dashPattern=8 4;opacity=50;" vertex="1" parent="1">
+      <mxGeometry x="20" y="60" width="300" height="800" as="geometry" />
+    </mxCell>
+    <mxCell id="zone_sandbox_lbl" value="SANDBOX" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=16;fontStyle=1;fontColor=#2d6a2d;" vertex="1" parent="1">
+      <mxGeometry x="20" y="68" width="300" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="zone_sandbox_sub" value="(isolated devcontainer)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;fontStyle=2;fontColor=#2d6a2d;" vertex="1" parent="1">
+      <mxGeometry x="20" y="92" width="300" height="24" as="geometry" />
+    </mxCell>
+
+    <!-- Agent in sandbox -->
+    <mxCell id="agent_box" value="🤖  AGENT&#xa;(Claude Code)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="60" y="130" width="200" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- Env var injected -->
+    <mxCell id="env_badge" value="HTTP_PROXY=http://host-gateway:3128&#xa;HTTPS_PROXY=http://host-gateway:3128&#xa;ALP_JOB_ID=job-abc123" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="40" y="220" width="260" height="64" as="geometry" />
+    </mxCell>
+    <mxCell id="env_badge_lbl" value="injected by Runner at job start" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=10;fontStyle=2;fontColor=#7a6000;" vertex="1" parent="1">
+      <mxGeometry x="40" y="286" width="260" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- Outbound request examples from agent -->
+    <mxCell id="req1" value="curl https://coolify.internal/api/v1/deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="40" y="340" width="260" height="36" as="geometry" />
+    </mxCell>
+    <mxCell id="req2" value="docker push ghcr.io/pksorensen/my-app:1.0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="40" y="386" width="260" height="36" as="geometry" />
+    </mxCell>
+    <mxCell id="req3" value="gh pr comment 123 --body &quot;done&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="40" y="432" width="260" height="36" as="geometry" />
+    </mxCell>
+    <mxCell id="req4" value="npm install express" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="40" y="478" width="260" height="36" as="geometry" />
+    </mxCell>
+    <mxCell id="req_lbl" value="All outbound HTTP(S) automatically routes&#xa;through HTTP_PROXY" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=11;fontStyle=2;fontColor=#2d6a2d;" vertex="1" parent="1">
+      <mxGeometry x="30" y="524" width="280" height="36" as="geometry" />
+    </mxCell>
+
+    <!-- ── ZONE 2: RUNNER DMZ ────────────────────────────────── -->
+    <mxCell id="zone_dmz" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=3;opacity=50;" vertex="1" parent="1">
+      <mxGeometry x="350" y="60" width="600" height="800" as="geometry" />
+    </mxCell>
+    <mxCell id="zone_dmz_lbl" value="RUNNER DMZ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=16;fontStyle=1;fontColor=#00338d;" vertex="1" parent="1">
+      <mxGeometry x="350" y="68" width="600" height="28" as="geometry" />
+    </mxCell>
+    <mxCell id="zone_dmz_sub" value="(host process — privileged, holds real credentials)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=12;fontStyle=2;fontColor=#00338d;" vertex="1" parent="1">
+      <mxGeometry x="350" y="92" width="600" height="24" as="geometry" />
+    </mxCell>
+
+    <!-- Egress Proxy box -->
+    <mxCell id="proxy_box" value="🛡️  EGRESS PROXY&#xa;host-gateway:3128" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="390" y="130" width="220" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- Egress policy rules -->
+    <mxCell id="policy_box" value="📋  EGRESS POLICY&#xa;&#xa;✅  ghcr.io  →  ALLOW&#xa;✅  api.github.com  →  ALLOW&#xa;✅  registry.npmjs.org  →  ALLOW&#xa;⚠️  coolify.internal/deploy  →  HUMAN GATE&#xa;🚫  *  →  BLOCK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=1;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="390" y="220" width="290" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- Token Store -->
+    <mxCell id="token_box" value="🔑  CREDENTIAL STORE&#xa;&#xa;coolify  →  eyJ...real_key&#xa;registry  →  ghp_...real_token&#xa;github  →  ghp_...real_token" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1;fontSize=12;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="700" y="130" width="230" height="130" as="geometry" />
+    </mxCell>
+
+    <!-- Token Swap label -->
+    <mxCell id="swap_note" value="🔄  TOKEN SWAP&#xa;JIT token IN → Real credential OUT&#xa;Happens at the DMZ boundary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=12;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxGeometry x="700" y="280" width="230" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Human Gate box -->
+    <mxCell id="gate_box" value="👤  HUMAN GATE&#xa;&#xa;Holds request&#xa;Notifies ALP Server&#xa;Waits for approval&#xa;Forwards or drops" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="390" y="420" width="200" height="130" as="geometry" />
+    </mxCell>
+
+    <!-- ALP Server notification -->
+    <mxCell id="alp_server" value="ALP SERVER&#xa;(agentics.dk)&#xa;&#xa;Shows pending approval&#xa;in the UI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="640" y="420" width="200" height="110" as="geometry" />
+    </mxCell>
+
+    <!-- Human Approver -->
+    <mxCell id="human" value="👨‍💻  HUMAN APPROVER&#xa;Reviews request details&#xa;Clicks Approve / Deny" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="640" y="560" width="200" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- Audit Log -->
+    <mxCell id="audit" value="📜  AUDIT LOG&#xa;Every request logged:&#xa;Job ID · destination · timestamp&#xa;token used (JIT ref, not real)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="390" y="680" width="230" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- ── ZONE 3: EXTERNAL WORLD ────────────────────────────── -->
+    <mxCell id="zone_ext" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=3;opacity=50;" vertex="1" parent="1">
+      <mxGeometry x="980" y="60" width="390" height="800" as="geometry" />
+    </mxCell>
+    <mxCell id="zone_ext_lbl" value="EXTERNAL WORLD" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;fontSize=16;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="980" y="68" width="390" height="28" as="geometry" />
+    </mxCell>
+
+    <mxCell id="ext_coolify" value="🚀  Coolify API&#xa;coolify.internal&#xa;&#xa;Receives real API key&#xa;(never the JIT token)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="130" width="200" height="100" as="geometry" />
+    </mxCell>
+    <mxCell id="ext_registry" value="📦  Container Registry&#xa;ghcr.io&#xa;&#xa;Receives real PAT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="260" width="200" height="90" as="geometry" />
+    </mxCell>
+    <mxCell id="ext_github" value="🐙  GitHub API&#xa;api.github.com&#xa;&#xa;Receives real PAT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="380" width="200" height="90" as="geometry" />
+    </mxCell>
+    <mxCell id="ext_npm" value="📋  npm Registry&#xa;registry.npmjs.org&#xa;&#xa;Public — allowed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="500" width="200" height="80" as="geometry" />
+    </mxCell>
+    <mxCell id="ext_blocked" value="❌  Unknown destinations&#xa;internal network / etc.&#xa;&#xa;BLOCKED by policy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=2;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="1020" y="620" width="200" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- ── ARROWS ────────────────────────────────────────────── -->
+
+    <!-- All agent requests → Egress Proxy -->
+    <mxCell id="arr_agent_proxy" value="all HTTP(S) via http_proxy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#b85450;fontColor=#333333;fontSize=12;endArrow=block;endFill=1;strokeWidth=2;" edge="1" source="agent_box" target="proxy_box" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Proxy checks policy -->
+    <mxCell id="arr_policy" value="check policy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#6c8ebf;fontColor=#333333;fontSize=11;endArrow=block;endFill=1;" edge="1" source="proxy_box" target="policy_box" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Proxy looks up token -->
+    <mxCell id="arr_token" value="lookup real credential" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#d6b656;fontColor=#333333;fontSize=11;endArrow=block;endFill=1;" edge="1" source="proxy_box" target="token_box" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Human gate trigger -->
+    <mxCell id="arr_gate" value="⚠️  production deploy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#d79b00;fontColor=#7d4e00;fontSize=11;endArrow=block;endFill=1;strokeWidth=2;" edge="1" source="policy_box" target="gate_box" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Gate notifies ALP Server -->
+    <mxCell id="arr_notify" value="notify: awaiting_approval" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#d79b00;fontColor=#7d4e00;fontSize=11;endArrow=block;endFill=1;" edge="1" source="gate_box" target="alp_server" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ALP Server → human -->
+    <mxCell id="arr_human" value="shows in UI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#d79b00;fontColor=#7d4e00;fontSize=11;endArrow=block;endFill=1;" edge="1" source="alp_server" target="human" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Human → Gate: approved -->
+    <mxCell id="arr_approve" value="approved" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#82b366;fontColor=#2d6a2d;fontSize=11;endArrow=block;endFill=1;strokeWidth=2;" edge="1" source="human" target="gate_box" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Proxy → Coolify (after approval + token swap) -->
+    <mxCell id="arr_coolify" value="✅  real API key  →" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#82b366;fontColor=#2d6a2d;fontSize=12;endArrow=block;endFill=1;strokeWidth=2;" edge="1" source="proxy_box" target="ext_coolify" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Proxy → Registry -->
+    <mxCell id="arr_registry" value="✅  real PAT  →" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#82b366;fontColor=#2d6a2d;fontSize=12;endArrow=block;endFill=1;strokeWidth=2;" edge="1" source="policy_box" target="ext_registry" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Proxy → GitHub -->
+    <mxCell id="arr_github" value="✅  real PAT  →" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#82b366;fontColor=#2d6a2d;fontSize=12;endArrow=block;endFill=1;strokeWidth=2;" edge="1" source="policy_box" target="ext_github" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Proxy → npm -->
+    <mxCell id="arr_npm" value="✅  no auth needed →" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.9;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#82b366;fontColor=#2d6a2d;fontSize=12;endArrow=block;endFill=1;" edge="1" source="policy_box" target="ext_npm" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Gate (after approval) → Coolify -->
+    <mxCell id="arr_gate_coolify" value="forwarded after approval" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;strokeColor=#d79b00;fontColor=#7d4e00;fontSize=11;endArrow=block;endFill=1;dashed=1;" edge="1" source="gate_box" target="ext_coolify" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Unknown → blocked -->
+    <mxCell id="arr_blocked" value="🚫  BLOCKED" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#b85450;fontColor=#6d0000;fontSize=12;endArrow=block;endFill=1;strokeWidth=2;" edge="1" source="policy_box" target="ext_blocked" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>

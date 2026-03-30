@@ -103,6 +103,45 @@ The Station's `labels` array lists what is **required**. The Runner's registered
 
 ---
 
+## Security Responsibilities
+
+> See [11-security.md](11-security.md) for the full security model and credential architecture.
+
+The Runner is the **privileged host process**. Its security responsibilities go beyond infrastructure management:
+
+### 1. Sandbox Creation and Isolation
+
+The Runner creates the devcontainer in which the Operator and Agent run. The Runner MUST:
+- Run the container without the `--privileged` flag
+- Not mount `/var/run/docker.sock` unless the Station explicitly requires Docker-in-Docker capability
+- Not inject real service credentials into the container environment
+
+The security boundary between host and sandbox is the Runner's responsibility to enforce.
+
+### 2. Credential Broker
+
+The Runner holds all privileged service credentials (API keys, tokens, PATs). These credentials MUST NOT be passed to the Agent as environment variables. Instead, the Runner exposes a **Credential Server** over a Unix socket:
+
+- Host path: `/run/alp/cred.sock`
+- Bind-mounted into the devcontainer
+- Agents call it to receive short-lived, scoped JIT tokens
+
+The Runner validates every credential request against the Job's workload identity (Job ID + labels) before issuing a token.
+
+### 3. Egress Proxy (DMZ)
+
+The Runner SHOULD act as an HTTP/HTTPS proxy (`host-gateway:3128`) for all outbound container traffic. This allows the Runner to:
+- Enforce an allow-list of permitted external destinations
+- Swap JIT tokens for real credentials at the egress boundary
+- Log all outbound traffic with Job ID for audit
+- Hold requests for human approval before forwarding to sensitive destinations
+
+### 4. Workload Identity
+
+The Runner injects `ALP_JOB_ID` and `ALP_STATION_LABELS` into the devcontainer. These are the Agent's **workload identity** — the credential server uses them to gate access. No static credentials are needed inside the container.
+
+---
+
 ## Concurrency
 
 A single Runner instance handles one Job at a time (per pks-cli's current implementation). For concurrency, run multiple Runner instances — each registers with a unique name and the Server dispatches Jobs across them.
