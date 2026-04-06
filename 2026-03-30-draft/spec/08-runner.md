@@ -4,6 +4,8 @@ An **ALP Runner** is a long-running daemon that registers with an ALP Server, po
 
 > **The Runner is not the Agent.** The Runner is infrastructure. The AI capability lives in the Agent, which is managed by the Operator.
 
+> See [diagrams/job-execution-swimlane.drawio](../diagrams/job-execution-swimlane.drawio) for the full lifecycle across all four layers (Server → Runner → Operator → Agent), and [diagrams/runner-operator-boundary.drawio](../diagrams/runner-operator-boundary.drawio) for a component view of the sandbox boundary.
+
 ---
 
 ## Responsibilities
@@ -139,6 +141,53 @@ The Runner SHOULD act as an HTTP/HTTPS proxy (`host-gateway:3128`) for all outbo
 ### 4. Workload Identity
 
 The Runner injects `ALP_JOB_ID` and `ALP_STATION_LABELS` into the devcontainer. These are the Agent's **workload identity** — the credential server uses them to gate access. No static credentials are needed inside the container.
+
+---
+
+## Plugin Acquisition
+
+Stations can declare Claude Code plugins that must be installed before the Agent runs. The Runner is responsible for acquiring these plugins **before** the Operator starts, using its own network context where marketplace URLs (e.g. `localhost:40145`) are directly reachable.
+
+### Why the Runner acquires plugins (not the Operator)
+
+The Operator runs inside a sandboxed devcontainer. From inside the container, `localhost` refers to the container itself — not the host where the marketplace is running. Rewriting URLs to `host.docker.internal` is fragile and environment-specific. The Runner, running on the host, can reach the marketplace directly.
+
+### Mechanism: Docker volume
+
+For each Job that declares plugins, the Runner:
+
+1. **Creates** a named Docker volume: `alp-plugins-{jobId}`
+2. **Clones** each plugin into the volume via a short-lived helper container:
+   ```
+   docker run --rm \
+     --mount type=volume,source=alp-plugins-{jobId},target=/plugins \
+     alpine/git clone --depth=1 {sourceUrl} /plugins/{pluginId}
+   ```
+3. **Mounts** the volume into the Operator devcontainer at `/run/alp/plugins`:
+   ```
+   --mount type=volume,source=alp-plugins-{jobId},target=/run/alp/plugins
+   ```
+4. **Sets** `VIBECAST_EXTRA_PLUGINS` in the launch environment to the colon-separated container-side paths:
+   ```
+   /run/alp/plugins/plugin-a:/run/alp/plugins/plugin-b
+   ```
+5. **Removes** the volume after the Job completes.
+
+The Operator (vibecast) reads `VIBECAST_EXTRA_PLUGINS` and passes `--plugin-dir` to Claude for each path.
+
+### Plugin declaration schema
+
+Plugins are declared in the Station trigger's `agentDefinition`:
+
+```typescript
+interface PluginRef {
+  id: string;       // Unique plugin identifier
+  name: string;     // Display name
+  sourceUrl: string; // Git-cloneable URL (e.g. https://marketplace/plugins/org/name.git)
+}
+```
+
+> See [diagrams/plugin-acquisition-swimlane.drawio](../diagrams/plugin-acquisition-swimlane.drawio) for a visual walkthrough of the acquisition flow, and [diagrams/runner-operator-boundary.drawio](../diagrams/runner-operator-boundary.drawio) for a component view of everything that crosses the sandbox wall.
 
 ---
 

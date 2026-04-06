@@ -1,0 +1,102 @@
+<mxfile host="app.diagrams.net" modified="2026-04-04" version="24.0.0">
+  <diagram name="Job Execution" id="job-execution">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- SWIMLANE CONTAINER -->
+        <mxCell id="sw" value="Job Execution — Full Lifecycle" style="shape=pool;startSize=30;horizontal=1;childLayout=stackLayout;horizontalStack=1;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=0;marginBottom=0;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1560" height="780" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Server -->
+        <mxCell id="lane1" value="ALP Server" style="swimlane;startSize=30;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=11;" vertex="1" parent="sw">
+          <mxGeometry x="0" y="0" width="390" height="750" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Runner -->
+        <mxCell id="lane2" value="Runner (pks-cli · HOST)" style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" vertex="1" parent="sw">
+          <mxGeometry x="390" y="0" width="390" height="750" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Operator -->
+        <mxCell id="lane3" value="Operator (vibecast · devcontainer)" style="swimlane;startSize=30;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" vertex="1" parent="sw">
+          <mxGeometry x="780" y="0" width="390" height="750" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Agent -->
+        <mxCell id="lane4" value="Agent (Claude Code)" style="swimlane;startSize=30;horizontal=0;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=11;" vertex="1" parent="sw">
+          <mxGeometry x="1170" y="0" width="390" height="750" as="geometry" />
+        </mxCell>
+
+        <!-- Server: Job available -->
+        <mxCell id="s1" value="Job dispatched&#xa;(stageId, taskId, agentDefinition)" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="lane1">
+          <mxGeometry x="30" y="50" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Runner: Poll / claim job -->
+        <mxCell id="s2" value="Poll → Claim job&#xa;PATCH status: in_progress" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="lane2">
+          <mxGeometry x="30" y="50" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Runner: Acquire plugins -->
+        <mxCell id="s3" value="Acquire plugins&#xa;(docker volume + alpine/git clone)" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="lane2">
+          <mxGeometry x="30" y="140" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Runner: Spawn devcontainer -->
+        <mxCell id="s4" value="Spawn devcontainer&#xa;• workspace volume&#xa;• plugin volume → /run/alp/plugins&#xa;• cred socket → /var/run/pks-creds" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="lane2">
+          <mxGeometry x="30" y="230" width="320" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Operator: Launch script runs -->
+        <mxCell id="s5" value="Launch script runs&#xa;Sets: VIBECAST_EXTRA_PLUGINS, AGENTICS_*&#xa;Starts vibecast in tmux" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="lane3">
+          <mxGeometry x="30" y="320" width="320" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Operator: vibecast starts Claude -->
+        <mxCell id="s6" value="vibecast starts Claude&#xa;with --plugin-dir flags&#xa;and initial prompt" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="lane3">
+          <mxGeometry x="30" y="420" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Agent works -->
+        <mxCell id="s7" value="Claude works&#xa;(reads prompt, uses tools,&#xa;calls skills via --plugin-dir)" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="lane4">
+          <mxGeometry x="30" y="420" width="320" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Agent: stop_broadcast -->
+        <mxCell id="s8" value="Calls stop_broadcast MCP tool&#xa;conclusion: success | failure" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="lane4">
+          <mxGeometry x="30" y="530" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Operator: vibecast exits -->
+        <mxCell id="s9" value="vibecast exits (tmux session ends)&#xa;exit code 0 = success" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="lane3">
+          <mxGeometry x="30" y="610" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Runner: report + cleanup -->
+        <mxCell id="s10" value="Report outcome to Server&#xa;Remove plugin volume&#xa;PATCH status: completed" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="lane2">
+          <mxGeometry x="30" y="610" width="320" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Server: record result -->
+        <mxCell id="s11" value="Record job result&#xa;Trigger transition rules" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="lane1">
+          <mxGeometry x="30" y="610" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s1" target="s2" parent="sw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s2" target="s3" parent="lane2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s3" target="s4" parent="lane2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s4" target="s5" parent="sw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s5" target="s6" parent="lane3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s6" target="s7" parent="sw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a7" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s7" target="s8" parent="lane4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a8" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s8" target="s9" parent="sw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a9" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s9" target="s10" parent="sw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a10" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s10" target="s11" parent="sw"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

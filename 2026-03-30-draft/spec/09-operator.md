@@ -4,6 +4,8 @@ A **Station Operator** (Operator) is spawned by the Runner for each Job. It mana
 
 The Operator is the translation layer between the infrastructure world (Runner, ALP Server) and the AI world (Agent). It knows how to work with a specific type of Agent.
 
+> See [diagrams/job-execution-swimlane.drawio](../diagrams/job-execution-swimlane.drawio) for the full job lifecycle, and [diagrams/runner-operator-boundary.drawio](../diagrams/runner-operator-boundary.drawio) for exactly what the Runner injects into (and receives back from) the Operator container.
+
 ---
 
 ## Responsibilities
